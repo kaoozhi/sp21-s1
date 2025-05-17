@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Tianran ZHANG
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -29,7 +29,8 @@ public class Model extends Observable {
      *  and score 0. */
     public Model(int size) {
         board = new Board(size);
-        score = maxScore = 0;
+        score = 0;
+        maxScore = 0;
         gameOver = false;
     }
 
@@ -94,6 +95,83 @@ public class Model extends Observable {
         setChanged();
     }
 
+    /** Moves the given tile up as far as possible, subject to the minR constraint.
+     *
+     * @param r     the row number of the tile to move up
+     * @param c -   the column number of the tile to move up
+     * @param maxR  the maximum row number that the tile can land in, e.g.
+     *              if minR is 2, the moving tile should move no higher than row 2.
+     * @return      if there is a merge, returns the row number where merge will happen, otherwise return the furthest row number that tile can go
+     *              if no move occurs, then return -1.
+     */
+    public int moveTileUpAsFarAsPossible(int c, int r, int maxR) {
+        int initVal = 0;
+        if (tile(c, r) != null) {
+            initVal = tile(c, r).value();
+        }
+        if (r == board.size() - 1) {
+            return -1;
+        }
+        int i = r;
+        while (i < maxR) {
+            if (((i + 1) < board.size()) && (tile(c, i + 1) != null)) {
+                if (initVal == tile(c, i + 1).value()) {
+                    return i + 1;
+                }
+                break;
+            }
+            i++;
+        }
+        if (i != r) {
+            return i;
+        }
+        return -1;
+    }
+
+    /**
+     * Modifies the board to simulate the process of tilting column c
+     * upwards.
+     *
+     * @param c         the column to tilt up.
+     */
+    public boolean tiltColumn(int c) {
+        boolean moved = false;
+        int n = board.size();
+        int prevMergeRow = n - 1;
+        for (int r = n - 1; r >= 0; r--) {
+            if (tile(c, r) == null) {
+                continue;
+            }
+            int targetRow = moveTileUpAsFarAsPossible(c, r, prevMergeRow);
+            if (targetRow == -1) {
+                continue;
+            }
+            moved = true;
+            Tile tile = tile(c, r);
+            boolean isMerged = board.move(c, targetRow, tile);
+            if (isMerged) {
+                this.score += tile(c, targetRow).value();
+                prevMergeRow = targetRow - 1;
+            }
+        }
+        return moved;
+    }
+
+    /**
+     * Modifies the board to simulate tilting all columns upwards.
+     *
+     */
+    public boolean tiltUp() {
+        boolean moved = false;
+        for (int c = 0; c < board.size(); c++) {
+            boolean colMoved = tiltColumn(c);
+            if (colMoved) {
+                moved = true;
+            }
+        }
+        return moved;
+    }
+
     /** Tilt the board toward SIDE. Return true iff this changes the board.
      *
      * 1. If two Tile objects are adjacent in the direction of motion and have
@@ -109,11 +187,9 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
-
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
-
+        board.setViewingPerspective(side);
+        changed = tiltUp();
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
@@ -137,7 +213,14 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -147,7 +230,13 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if ((b.tile(i, j) != null) && (b.tile(i, j).value() == MAX_PIECE)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -158,13 +247,34 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        return emptySpaceExists(b) || sameTwoAdjacentTiles(b);
+    }
+
+    /**
+     * Returns true if there are two adjacent tiles with the same value.
+     */
+    public static boolean sameTwoAdjacentTiles(Board b) {
+        int[][] move = new int[][] {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                for (int[] m : move) {
+                    int r = i + m[0];
+                    int c = j + m[1];
+                    if ((r >= 0 && r < b.size()) && (c >= 0 && c < b.size())) {
+                        if ((b.tile(i, j) != null) && (b.tile(r, c) != null)
+                                && (b.tile(i, j).value() == b.tile(r, c).value())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 
 
     @Override
-     /** Returns the model as a string, used for debugging. */
+    /** Returns the model as a string, used for debugging. */
     public String toString() {
         Formatter out = new Formatter();
         out.format("%n[%n");
