@@ -20,6 +20,10 @@ public class ArrayDeque<T> {
         return size;
     }
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
     public T get(int index) {
         if (index > size - 1) {
             return null;
@@ -109,6 +113,23 @@ public class ArrayDeque<T> {
         nextLast = size;
     }
 
+    public boolean equals(Object o) {
+        if (!(o instanceof ArrayDeque<?>)) {
+            return false;
+        }
+        ArrayDeque<?> obj = (ArrayDeque<?>) o;
+
+        if (this.size != obj.size()) {
+            return false;
+        }
+
+        for (int i=0; i < this.size; i++) {
+            if (this.get(i) != obj.get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         ArrayDeque<Integer> deque = new ArrayDeque<>();
@@ -140,7 +161,6 @@ public class ArrayDeque<T> {
         deque.addLast(-4);
         deque.removeLast();
         deque.removeLast();
-//        deque.removeFirst();
         deque.printDeque();
 
 
