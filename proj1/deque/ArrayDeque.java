@@ -101,12 +101,12 @@ public class ArrayDeque<T> {
     }
 
     private int getArrayIndex(int dequeIndex) {
-         int arrayIndex = dequeIndex % items.length;
-         return (arrayIndex < 0) ? arrayIndex + items.length : arrayIndex;
+        int arrayIndex = dequeIndex % items.length;
+        return (arrayIndex < 0) ? arrayIndex + items.length : arrayIndex;
     }
 
     private void resize(int cap) {
-        T[] a = (T []) new Object[cap];
+        T[] a = (T[]) new Object[cap];
         for (int i = 0; i < size; i++) {
             a[i] = this.get(i);
         }
@@ -125,7 +125,7 @@ public class ArrayDeque<T> {
             return false;
         }
 
-        for (int i=0; i < this.size; i++) {
+        for (int i = 0; i < this.size; i++) {
             if (this.get(i) != obj.get(i)) {
                 return false;
             }
@@ -135,8 +135,12 @@ public class ArrayDeque<T> {
 
     private class ArrayDequeIterator implements Iterator<T> {
         private int wizPos;
-        public ArrayDequeIterator() { wizPos = 0; }
-        public boolean hasNext() { return wizPos < size; }
+        public ArrayDequeIterator() {
+            wizPos = 0;
+        }
+        public boolean hasNext() {
+            return wizPos < size;
+        }
         public T next() {
             T next = get(wizPos);
             wizPos++;
@@ -166,11 +170,11 @@ public class ArrayDeque<T> {
         deque.addFirst(10);
         deque.addFirst(11);
         deque.addFirst(12);
-        for (int i=13; i < 18; i++) {
+        for (int i = 13; i < 18; i++) {
             deque.addFirst(i);
         }
         deque.addLast(-3);
-        for (int i=0; i < 15; i++) {
+        for (int i = 0; i < 15; i++) {
             deque.removeLast();
         }
         deque.addFirst(5);
@@ -184,8 +188,6 @@ public class ArrayDeque<T> {
         while (dequeIterator.hasNext()) {
             System.out.println((dequeIterator.next()));
         }
-//        System.out.println(deque.size);
-//        System.out.println(deque.get(15));
     }
 
 }

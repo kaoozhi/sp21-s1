@@ -7,9 +7,9 @@ public class LinkedListDeque<T> {
     private int size;
 
     public class Node {
-        public T item;
-        public Node prev;
-        public Node next;
+        private T item;
+        private Node prev;
+        private Node next;
         public Node(T t, Node next, Node prev) {
             item = t;
             this.next = next;
@@ -31,16 +31,16 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        Node old_first = sentinel.next;
+        Node oldFirst = sentinel.next;
         sentinel.next = new Node(item, sentinel.next, sentinel);
-        old_first.prev = sentinel.next;
+        oldFirst.prev = sentinel.next;
         size += 1;
     }
 
     public void addLast(T item) {
-        Node old_last = sentinel.prev;
+        Node oldLast = sentinel.prev;
         sentinel.prev = new Node(item, sentinel, sentinel.prev);
-        old_last.next = sentinel.prev;
+        oldLast.next = sentinel.prev;
         size += 1;
     }
 
@@ -100,7 +100,7 @@ public class LinkedListDeque<T> {
         return p.item;
     }
 
-    public T getRecursive(int index){
+    public T getRecursive(int index) {
         if (index < 0 || index > size - 1) {
             return null;
         }
@@ -117,7 +117,7 @@ public class LinkedListDeque<T> {
             return false;
         }
 
-        for (int i=0; i < this.size; i++) {
+        for (int i = 0; i < this.size; i++) {
             if (this.get(i) != obj.get(i)) {
                 return false;
             }
@@ -127,8 +127,12 @@ public class LinkedListDeque<T> {
 
     private class DequeIterator implements Iterator<T> {
         private Node p;
-        public DequeIterator() { p = sentinel.next; }
-        public boolean hasNext() { return p != sentinel; }
+        public DequeIterator() {
+            p = sentinel.next;
+        }
+        public boolean hasNext() {
+            return p != sentinel;
+        }
         public T next() {
             T nextItem = p.item;
             p = p.next;
@@ -149,9 +153,7 @@ public class LinkedListDeque<T> {
         deque.addFirst("1");
         deque.addLast("5");
         deque.addLast("6");
-//        System.out.println(deque.removeFirst());
-//        System.out.println(deque.removeLast());
-//        System.out.println(deque.get(0));
+
         System.out.println(deque.getRecursive(8));
 
         LinkedListDeque<String> deque2 = new LinkedListDeque<String>();
