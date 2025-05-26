@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     private Node sentinel;
     private int size;
 
@@ -30,6 +30,7 @@ public class LinkedListDeque<T> {
         sentinel.prev = sentinel;
     }
 
+    @Override
     public void addFirst(T item) {
         Node oldFirst = sentinel.next;
         sentinel.next = new Node(item, sentinel.next, sentinel);
@@ -37,6 +38,7 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
+    @Override
     public void addLast(T item) {
         Node oldLast = sentinel.prev;
         sentinel.prev = new Node(item, sentinel, sentinel.prev);
@@ -44,14 +46,17 @@ public class LinkedListDeque<T> {
         size += 1;
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
+//    @Override
+//    public boolean isEmpty() {
+//        return size == 0;
+//    }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
         Node p = sentinel.next;
         String res = "";
@@ -63,6 +68,7 @@ public class LinkedListDeque<T> {
         System.out.println(res);
     }
 
+    @Override
     public T removeFirst() {
         if (size > 0) {
             Node first = sentinel.next;
@@ -74,6 +80,7 @@ public class LinkedListDeque<T> {
         return null;
     }
 
+    @Override
     public T removeLast() {
         if (size > 0) {
             Node last = sentinel.prev;
@@ -85,6 +92,7 @@ public class LinkedListDeque<T> {
         return null;
     }
 
+    @Override
     public T get(int index) {
         if (index < 0 || index > size - 1) {
             return null;

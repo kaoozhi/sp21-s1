@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
@@ -18,22 +18,7 @@ public class ArrayDeque<T> {
         nextLast = nextFirst + 1;
     }
 
-    public int size() {
-        return size;
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    public T get(int index) {
-        if (index > size - 1) {
-            return null;
-        }
-        int arrayIndex = getArrayIndex(nextFirst + 1 + index);
-        return items[arrayIndex];
-    }
-
+    @Override
     public void addFirst(T item) {
         if (size == items.length) {
             resize((int) (size * REFACTOR));
@@ -45,6 +30,7 @@ public class ArrayDeque<T> {
         nextLast = nextFirst + size + 1;
     }
 
+    @Override
     public void addLast(T item) {
         if (size == items.length) {
             resize((int) (size * REFACTOR));
@@ -55,6 +41,32 @@ public class ArrayDeque<T> {
         nextLast += 1;
     }
 
+//    @Override
+//    public boolean isEmpty() {
+//        return size == 0;
+//    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public void printDeque() {
+        String res = "";
+        int count = 0;
+        int start = nextFirst + 1;
+        while (count < size) {
+            int arrayIndex = getArrayIndex(start);
+            res += " " + items[arrayIndex];
+            start++;
+            count++;
+        }
+        res += "\n";
+        System.out.println(res);
+    }
+
+    @Override
     public T removeFirst() {
         if (size > 0) {
             if ((double) (size - 1) / items.length < RATIO) {
@@ -70,6 +82,7 @@ public class ArrayDeque<T> {
         return null;
     }
 
+    @Override
     public T removeLast() {
         if (size > 0) {
             if ((double) (size - 1) / items.length < RATIO) {
@@ -85,19 +98,13 @@ public class ArrayDeque<T> {
         return null;
     }
 
-
-    public void printDeque() {
-        String res = "";
-        int count = 0;
-        int start = nextFirst + 1;
-        while (count < size) {
-            int arrayIndex = getArrayIndex(start);
-            res += " " + items[arrayIndex];
-            start++;
-            count++;
+    @Override
+    public T get(int index) {
+        if (index > size - 1) {
+            return null;
         }
-        res += "\n";
-        System.out.println(res);
+        int arrayIndex = getArrayIndex(nextFirst + 1 + index);
+        return items[arrayIndex];
     }
 
     private int getArrayIndex(int dequeIndex) {
