@@ -2,6 +2,7 @@ package deque;
 
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -202,6 +203,30 @@ public class LinkedListDequeTest {
         lld3.addLast(3);
         lld3.addLast(4);
         assertTrue("Should return false as they are not based on the same type",!lld1.equals(lld3));
+    }
+
+
+    @Test
+    /* Check get method, if index doesn't exist return null*/
+    public void iteratorTest() {
+        LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
+
+        lld1.addLast("a");
+        lld1.addLast("b");
+        lld1.addLast("c");
+        lld1.addLast("d");
+        lld1.addLast("e");
+        lld1.addLast("f");
+
+        lld1.printDeque();
+        Iterator<String> lld1iter = lld1.iterator();
+
+        int i = 0;
+        while (i < lld1.size()) {
+            assertEquals("Should return the same element as the get() method does", lld1.get(i), lld1iter.next());
+            i++;
+        }
+        assertFalse("Iterator should reach the end", lld1iter.hasNext());
     }
 
 }

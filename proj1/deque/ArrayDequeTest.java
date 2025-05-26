@@ -2,6 +2,7 @@ package deque;
 
 import org.junit.Test;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -175,6 +176,30 @@ public class ArrayDequeTest {
         ad3.addLast(3);
         ad3.addLast(4);
         assertTrue("Should return false as they are not based on the same type",!ad1.equals(ad3));
+    }
+
+    @Test
+    /* Check get method, if index doesn't exist return null*/
+    public void iteratorDequeTest() {
+        ArrayDeque<String> ad1 = new ArrayDeque<>();
+
+        ad1.addLast("a");
+        ad1.addLast("b");
+        ad1.addLast("c");
+        ad1.addLast("d");
+        ad1.addLast("e");
+        ad1.addLast("f");
+        ad1.removeFirst();
+        ad1.removeLast();
+
+        Iterator<String> ad1iter = ad1.iterator();
+
+        int i = 0;
+        while (i < ad1.size()) {
+            assertEquals("Should return the same element as the get() method does", ad1.get(i), ad1iter.next());
+            i++;
+        }
+        assertFalse("Iterator should reach the end", ad1iter.hasNext());
     }
 }
     
