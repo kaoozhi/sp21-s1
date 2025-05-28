@@ -41,11 +41,6 @@ public class ArrayDeque<T> implements Deque<T> {
         nextLast += 1;
     }
 
-//    @Override
-//    public boolean isEmpty() {
-//        return size == 0;
-//    }
-
     @Override
     public int size() {
         return size;
@@ -69,7 +64,7 @@ public class ArrayDeque<T> implements Deque<T> {
     @Override
     public T removeFirst() {
         if (size > 0) {
-            if ((double) (size - 1) / items.length < RATIO) {
+            if ((double) (size - 1) / items.length < RATIO && items.length >= 16) {
                 resize((int) (items.length / REFACTOR));
             }
             int firstarrayIndex = getArrayIndex(nextFirst + 1);
@@ -85,7 +80,7 @@ public class ArrayDeque<T> implements Deque<T> {
     @Override
     public T removeLast() {
         if (size > 0) {
-            if ((double) (size - 1) / items.length < RATIO) {
+            if (((double) (size - 1) / items.length < RATIO) && items.length >= 16) {
                 resize((int) (items.length / REFACTOR));
             }
             int lastarrayIndex = getArrayIndex(nextLast - 1);
@@ -142,7 +137,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     private class ArrayDequeIterator implements Iterator<T> {
         private int wizPos;
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             wizPos = 0;
         }
         public boolean hasNext() {
@@ -162,39 +157,52 @@ public class ArrayDeque<T> implements Deque<T> {
     public static void main(String[] args) {
         ArrayDeque<Integer> deque = new ArrayDeque<>();
         
-        deque.addFirst(1);
+//        deque.addFirst(1);
+//        deque.addFirst(2);
+//        deque.addFirst(3);
+//        deque.addFirst(4);
+//        deque.addFirst(5);
+//        deque.addFirst(6);
+//        deque.addFirst(7);
+//        deque.addFirst(8);
+//        deque.addFirst(9);
+//        deque.addLast(0);
+//        deque.addLast(-1);
+//        deque.addLast(-2);
+//        deque.addFirst(10);
+//        deque.addFirst(11);
+//        deque.addFirst(12);
+//        for (int i = 13; i < 18; i++) {
+//            deque.addFirst(i);
+//        }
+//        deque.addLast(-3);
+//        for (int i = 0; i < 15; i++) {
+//            deque.removeLast();
+//        }
+//        deque.addFirst(5);
+//        deque.addFirst(6);
+//        deque.addLast(-4);
+//        deque.removeLast();
+//        do {
+//            deque.removeLast();
+//        } while (!deque.isEmpty());
+//        deque.printDeque();
+//
+//        Iterator<Integer> dequeIterator = deque.iterator();
+//        while (dequeIterator.hasNext()) {
+//            System.out.println((dequeIterator.next()));
+//        }
+        deque.addFirst(0);
+        deque.removeFirst();
         deque.addFirst(2);
-        deque.addFirst(3);
-        deque.addFirst(4);
+        deque.removeFirst();
+        deque.isEmpty();
         deque.addFirst(5);
-        deque.addFirst(6);
+        deque.removeFirst() ;
         deque.addFirst(7);
-        deque.addFirst(8);
-        deque.addFirst(9);
-        deque.addLast(0);
-        deque.addLast(-1);
-        deque.addLast(-2);
-        deque.addFirst(10);
-        deque.addFirst(11);
-        deque.addFirst(12);
-        for (int i = 13; i < 18; i++) {
-            deque.addFirst(i);
-        }
-        deque.addLast(-3);
-        for (int i = 0; i < 15; i++) {
-            deque.removeLast();
-        }
-        deque.addFirst(5);
-        deque.addFirst(6);
-        deque.addLast(-4);
-        deque.removeLast();
-        deque.removeLast();
-        deque.printDeque();
+        deque.isEmpty();
+        deque.removeFirst();
 
-        Iterator<Integer> dequeIterator = deque.iterator();
-        while (dequeIterator.hasNext()) {
-            System.out.println((dequeIterator.next()));
-        }
     }
 
 }
