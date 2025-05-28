@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
     private int nextFirst;
     private int nextLast;
@@ -118,10 +118,10 @@ public class ArrayDeque<T> implements Deque<T> {
     }
 
     public boolean equals(Object o) {
-        if (!(o instanceof ArrayDeque<?>)) {
+        if (!(o instanceof Deque<?>)) {
             return false;
         }
-        ArrayDeque<?> obj = (ArrayDeque<?>) o;
+        Deque<?> obj = (Deque<?>) o;
 
         if (this.size != obj.size()) {
             return false;
@@ -154,9 +154,9 @@ public class ArrayDeque<T> implements Deque<T> {
         return new ArrayDequeIterator();
     }
 
-    public static void main(String[] args) {
-        ArrayDeque<Integer> deque = new ArrayDeque<>();
-        
+//    private static void main(String[] args) {
+//        ArrayDeque<Integer> deque = new ArrayDeque<>();
+//
 //        deque.addFirst(1);
 //        deque.addFirst(2);
 //        deque.addFirst(3);
@@ -192,17 +192,16 @@ public class ArrayDeque<T> implements Deque<T> {
 //        while (dequeIterator.hasNext()) {
 //            System.out.println((dequeIterator.next()));
 //        }
-        deque.addFirst(0);
-        deque.removeFirst();
-        deque.addFirst(2);
-        deque.removeFirst();
-        deque.isEmpty();
-        deque.addFirst(5);
-        deque.removeFirst() ;
-        deque.addFirst(7);
-        deque.isEmpty();
-        deque.removeFirst();
-
-    }
-
+//        deque.addFirst(0);
+//        deque.removeFirst();
+//        deque.addFirst(2);
+//        deque.removeFirst();
+//        deque.isEmpty();
+//        deque.addFirst(5);
+//        deque.removeFirst() ;
+//        deque.addFirst(7);
+//        deque.isEmpty();
+//        deque.removeFirst();
+//
+//    }
 }

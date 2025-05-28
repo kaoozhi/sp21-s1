@@ -2,15 +2,15 @@ package deque;
 
 import java.util.Comparator;
 
-public class MaxArrayDeque<T extends Comparable<? super T>> extends ArrayDeque<T> {
-    private final Comparator<? super T> comparator;  // Changed from Comparator<T>
+public class MaxArrayDeque<T> extends ArrayDeque<T> {
+    private Comparator<T> comparator;  // Changed from Comparator<T>
 
     public MaxArrayDeque() {
         super();
-        this.comparator = Comparator.naturalOrder();
+        this.comparator = (Comparator<T>) Comparator.naturalOrder();
     };
 
-    public MaxArrayDeque(Comparator<? super T> c) {  // Changed from Comparator<T>
+    public MaxArrayDeque(Comparator<T> c) {  // Changed from Comparator<T>
         super();
         this.comparator = c;
     }
@@ -35,7 +35,7 @@ public class MaxArrayDeque<T extends Comparable<? super T>> extends ArrayDeque<T
 
     public static void main(String[] args) {
         // No cast needed now
-        MaxArrayDeque<String> deque1 = new MaxArrayDeque<>(Comparator.reverseOrder());
+        MaxArrayDeque<String> deque1 = new MaxArrayDeque<>((Comparator<String>) Comparator.reverseOrder());
         deque1.addFirst("hi");
         deque1.addLast("maybe");
         deque1.addLast("wow");

@@ -2,11 +2,11 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private Node sentinel;
     private int size;
 
-    public class Node {
+    private class Node {
         private T item;
         private Node prev;
         private Node next;
@@ -45,11 +45,6 @@ public class LinkedListDeque<T> implements Deque<T> {
         oldLast.next = sentinel.prev;
         size += 1;
     }
-
-//    @Override
-//    public boolean isEmpty() {
-//        return size == 0;
-//    }
 
     @Override
     public int size() {
@@ -116,10 +111,10 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     public boolean equals(Object o) {
-        if (!(o instanceof LinkedListDeque<?>)) {
+        if (!(o instanceof Deque<?>)) {
             return false;
         }
-        LinkedListDeque<?> obj = (LinkedListDeque<?>) o;
+        Deque<?> obj = (Deque<?>) o;
 
         if (this.size != obj.size()) {
             return false;
@@ -133,9 +128,9 @@ public class LinkedListDeque<T> implements Deque<T> {
         return true;
     }
 
-    private class DequeIterator implements Iterator<T> {
+    private class LinkedListDequeIterator implements Iterator<T> {
         private Node p;
-        public DequeIterator() {
+        public LinkedListDequeIterator() {
             p = sentinel.next;
         }
         public boolean hasNext() {
@@ -149,34 +144,34 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     public Iterator<T> iterator() {
-        return new DequeIterator();
+        return new LinkedListDequeIterator();
     }
 
 
-    public static void main(String[] args) {
-        LinkedListDeque<String> deque = new LinkedListDeque<String>();
-        deque.addFirst("4");
-        deque.addFirst("3");
-        deque.addFirst("2");
-        deque.addFirst("1");
-        deque.addLast("5");
-        deque.addLast("6");
-
-        System.out.println(deque.getRecursive(8));
-
-        LinkedListDeque<String> deque2 = new LinkedListDeque<String>();
-        deque2.addFirst("4");
-        deque2.addFirst("3");
-        deque2.addFirst("2");
-        deque2.addFirst("1");
-        deque2.addLast("5");
-        System.out.println(deque2.equals(deque));
-
-        Iterator<String> deque2Iterator = deque2.iterator();
-
-        while (deque2Iterator.hasNext()) {
-            System.out.println(deque2Iterator.next());
-        }
-
-    }
+//    private static void main(String[] args) {
+//        LinkedListDeque<String> deque = new LinkedListDeque<String>();
+//        deque.addFirst("4");
+//        deque.addFirst("3");
+//        deque.addFirst("2");
+//        deque.addFirst("1");
+//        deque.addLast("5");
+//        deque.addLast("6");
+//
+//        System.out.println(deque.getRecursive(8));
+//
+//        LinkedListDeque<String> deque2 = new LinkedListDeque<String>();
+//        deque2.addFirst("4");
+//        deque2.addFirst("3");
+//        deque2.addFirst("2");
+//        deque2.addFirst("1");
+//        deque2.addLast("5");
+//        System.out.println(deque2.equals(deque));
+//
+//        Iterator<String> deque2Iterator = deque2.iterator();
+//
+//        while (deque2Iterator.hasNext()) {
+//            System.out.println(deque2Iterator.next());
+//        }
+//
+//    }
 }

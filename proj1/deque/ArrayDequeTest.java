@@ -155,27 +155,36 @@ public class ArrayDequeTest {
     @Test
     /* Check get method, if index doesn't exist return null*/
     public void equalsDequeTest() {
-        ArrayDeque<String> ad1 = new ArrayDeque<String>();
+        Deque<String> ad1 = new ArrayDeque<String>();
         ad1.addLast("a");
         ad1.addLast("b");
         ad1.addLast("c");
         ad1.addLast("d");
 
-        ArrayDeque<String> ad2 = new ArrayDeque<String>();
+        Deque<String> ad2 = new ArrayDeque<String>();
         ad2.addLast("a");
         ad2.addLast("b");
         ad2.addLast("c");
-
         assertTrue("Should return false as they are not equal",!ad1.equals(ad2));
         ad2.addLast("d");
         assertTrue("Should return true as they have same content",ad1.equals(ad2));
 
-        ArrayDeque<Integer> ad3 = new ArrayDeque<Integer>();
+        Deque<Integer> ad3 = new ArrayDeque<Integer>();
         ad3.addLast(1);
         ad3.addLast(2);
         ad3.addLast(3);
         ad3.addLast(4);
         assertTrue("Should return false as they are not based on the same type",!ad1.equals(ad3));
+
+        Deque<String> lld1 = new LinkedListDeque<>();
+        lld1.addLast("a");
+        lld1.addLast("b");
+        lld1.addLast("c");
+        lld1.addLast("d");
+        assertTrue("Should return true as they are equal", ad2.equals(lld1));
+        ad3.equals(lld1);
+        assertTrue("Should return false as they are not based on the same type",!ad3.equals(lld1));
+
     }
 
     @Test
